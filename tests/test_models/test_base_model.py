@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" """
+"""Unittest for the base model """
 from models.base_model import BaseModel
 import unittest
 import datetime
@@ -9,19 +9,20 @@ import os
 
 
 class test_basemodel(unittest.TestCase):
-    """ """
+    """Unittest class baseModel """
 
     def __init__(self, *args, **kwargs):
-        """ """
+        """Initialization for testing """
         super().__init__(*args, **kwargs)
         self.name = 'BaseModel'
         self.value = BaseModel
 
     def setUp(self):
-        """ """
+        """Setup class method """
         pass
 
     def tearDown(self):
+        """ Remove the json file to start afresh"""
         try:
             os.remove('file.json')
         except Exception as error:
