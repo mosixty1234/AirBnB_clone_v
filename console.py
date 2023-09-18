@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Console Module """
+import re
 import cmd
 import sys
 from models.base_model import BaseModel
@@ -118,11 +119,34 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+
+        args_passed = args.split()
+
+        if args_passed[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+
+        params = {}
+        args_list = args_passed[1:]
+
+        for param in args_list:
+            match = re.match(r'^([\w]+)="(.+)"$"', param)
+
+            if match:
+                key = match.group(1)
+                value = match.group(2)
+
+                key = key.replace('_', " ")
+                params[key] = value
+            elif '.' in params:
+                try:
+                    value = float(param)
+                    params[param] = value
+                except Exception:
+                    pass
+
+        new_instance = HBNBCommand.classes[args_passed[0]](**params)
+        new_instance.save()
         print(new_instance.id)
         storage.save()
 
