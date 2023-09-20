@@ -120,40 +120,40 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        args_passed = args.split()
+        args_list = args.split()
+        cls_name = args_list[0]
 
-        if args_passed[0] not in HBNBCommand.classes:
+        if cls_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
 
-        params = {}
-        args_list = args_passed[1:]
+        cls_attr = {}
 
-        for param in args_list:
-            match = re.match(r'^([\w]+)="(.+)"$"', param)
+        for param in args_list[1:]:
+            key_val = param.split("=")
 
-            if match:
-                key = match.group(1)
-                value = match.group(2)
+            if len(key_val) != 2:
+                continue
+            key, val = key_val
 
-                key = key.replace('_', " ")
-                params[key] = value
-            elif '.' in params:
+            if val.startswith('"') and val.endswith('"'):
+                val = val[1:-1].replace("_", " ")
+            elif "." in val:
                 try:
-                    value = float(param)
-                    params[param] = value
-                except Exception:
-                    pass
+                    val = float(val)
+                except ValueError:
+                    continue
             else:
                 try:
-                    value = int(param)
-                    params[param] = value
+                    val = int(val)
                 except ValueError:
-                    pass
+                    continue
 
-        new_instance = HBNBCommand.classes[args_passed[0]](**params)
-        new_instance.save()
+            cls_attr[key] = val
+
+        new_instance = HBNBCommand.classes[cls_name](**cls_attr)
         print(new_instance.id)
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
