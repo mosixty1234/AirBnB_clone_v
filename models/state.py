@@ -17,6 +17,8 @@ class State(BaseModel, Base):
                 "City", backref="state", cascade="all, delete-orphan")
 
     else:
+        name = ""
+
         @property
         def cities(self):
             """ """
