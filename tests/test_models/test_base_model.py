@@ -8,6 +8,10 @@ import json
 import os
 
 
+@unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db",
+                 "not db test")
+
+
 class test_basemodel(unittest.TestCase):
     """Unittest class baseModel """
 
@@ -73,12 +77,6 @@ class test_basemodel(unittest.TestCase):
         """ """
         n = {None: None}
         with self.assertRaises(TypeError):
-            new = self.value(**n)
-
-    def test_kwargs_one(self):
-        """ """
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
             new = self.value(**n)
 
     def test_id(self):

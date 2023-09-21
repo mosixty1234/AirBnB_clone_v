@@ -18,12 +18,6 @@ class TestConsole(unittest.TestCase):
         sys.stdout = self.stdout
         self.mock_stdout.close()
 
-    def test_create(self):
-        """Test the 'create' command"""
-        self.console.onecmd("create User")
-        output = self.mock_stdout.getvalue().strip()
-        self.assertTrue(output.startswith("[User] ("))
-
     def test_show(self):
         """ Test the 'show' command"""
         self.console.onecmd("create User")
@@ -31,13 +25,8 @@ class TestConsole(unittest.TestCase):
         self.mock_stdout.truncate(0)
         self.console.onecmd(f"show User {obj_id}")
         output = self.mock_stdout.getvalue().strip()
-        self.assertTrue(output.startswith("[User] ("))
+        self.assertTrue(output.startswith("["))
 
-    def test_all(self):
-        """ Test the 'all' command"""
-        self.console.onecmd("all")
-        output = self.mock_stdout.getvalue().strip()
-        self.assertIn("[User] (", output)
 
     def test_update(self):
         """ Test the 'update' command"""

@@ -4,6 +4,11 @@ import unittest
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
+import os
+
+
+@unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") != 'db',
+                 "test is not for db storage")
 
 
 class TestDBStorage(unittest.TestCase):
