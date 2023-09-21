@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """ DB stogate engine """
 from models.base_model import Base
-from models.user import User
 from models.state import State
 from models.city import City
+from models.user import User
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
@@ -37,15 +37,14 @@ class DBStorage:
         obj_dict = {}
 
         if cls is not None:
-            if isinstance(cls, str):
-                objs = self.__session.query(cls).all()
+            objs = self.__session.query(cls).all()
         else:
             objs = []
             for cls_obj in classes:
-                obj.extend(self.__session.query(cls_obj).all())
+                objs.extend(self.__session.query(cls_obj).all())
 
         for obj in objs:
-            key = "{}.{}".format(obj.__class__.__name__, ibj.id)
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
             obj_dict[key] = obj
 
         return obj_dict
