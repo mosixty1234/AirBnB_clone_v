@@ -52,6 +52,7 @@ def do_deploy(archive_path):
 
 
 def deploy():
+    """ Function that distributes an archive to web servers. """
     archive_path = do_pack()
 
     if not archive_path:
