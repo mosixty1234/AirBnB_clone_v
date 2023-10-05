@@ -23,10 +23,10 @@ ln -s  /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -R ubuntu:ubuntu /data/
 
-config="/etc/nginx/sites-available/default"
-line_add="location /hbnb_static/ { alias /data/web_static/current/; }"
+config="/etc/nginx/sites-enabled/default"
+line_add="\ \n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t\t\tindex index.html;\n\t}"
 
-sudo sed -i "/location \/ {/a $line_add" "$config"
+sudo sed -i "/^server {/a $line_add" "$config"
 
 sudo nginx -t
 sudo service nginx restart
