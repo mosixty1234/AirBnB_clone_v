@@ -48,7 +48,7 @@ REDIRECTION=$(cat << EOF
 EOF
 )
 
-sudo sed -i '/server {/r /dev/stdin' /etc/nginx/sites-enabled/default <<< "$REDIRECTION"
+sudo sed -i '/server {/r /dev/stdin' /etc/nginx/sites-available/default <<< "$REDIRECTION"
 
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
 
