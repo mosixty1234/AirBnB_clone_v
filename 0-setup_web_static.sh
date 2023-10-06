@@ -24,9 +24,33 @@ ln -s  /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
 config="/etc/nginx/sites-enabled/default"
-line_add="\ \n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t\t\tindex index.html;\n\t}"
 
-sudo sed -i "/^server {/a $line_add" "$config"
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+REDIRECTION=$(cat << EOF
+	
+        add_header X-Served-By $(hostname);
+
+        location /redirect_me {
+                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+        }
+
+	location /hbnb_static/ {
+                alias /data/web_static/current/;
+                        index index.html;
+        }
+
+        error_page 404 /custom_404.html;
+
+        location /custom_404.html {
+                root /var/www/html;
+        }
+EOF
+)
+
+sudo sed -i '/server {/r /dev/stdin' /etc/nginx/sites-enabled/default <<< "$REDIRECTION"
+
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
 
 sudo nginx -t
 sudo service nginx restart
