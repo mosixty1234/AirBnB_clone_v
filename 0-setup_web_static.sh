@@ -23,8 +23,6 @@ ln -s  /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -R ubuntu:ubuntu /data/
 
-config="/etc/nginx/sites-enabled/default"
-
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
 REDIRECTION=$(cat << EOF
@@ -52,5 +50,4 @@ sudo sed -i '/server {/r /dev/stdin' /etc/nginx/sites-available/default <<< "$RE
 
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
 
-sudo nginx -t
 sudo service nginx restart
