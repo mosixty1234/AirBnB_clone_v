@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 #Bash script that sets up web servers for the deployment of web_static
 
-sudo apt-get update
-sudo apt-get install -y nginx
+if ! command -v nginx &>/dev/null;
+then
+	sudo apt-get update
+	sudo apt-get install -y nginx
+fi
 
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/shared/
@@ -32,7 +35,7 @@ REDIRECTION=$(cat << EOF
 
 	location /hbnb_static/ {
                 alias /data/web_static/current/;
-                        index index.html;
+                index index.html;
         }
 
         error_page 404 /custom_404.html;
@@ -43,7 +46,7 @@ REDIRECTION=$(cat << EOF
 EOF
 )
 
-sudo sed -i '/server {/r /dev/stdin' /etc/nginx/sites-available/default <<< "$REDIRECTION"
+sudo sed -i '/^server {/r /dev/stdin' /etc/nginx/sites-enabled/default <<< "$REDIRECTION"
 
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
 
