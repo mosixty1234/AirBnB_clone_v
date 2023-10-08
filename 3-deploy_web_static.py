@@ -30,21 +30,21 @@ def do_deploy(archive_path):
     try:
         file_name = archive_path.split('/')[-1]
         file_base = file_name.split('.')[0]
+        path_static = "/data/web_static/releases/{}/".format(file_base)
 
         put(archive_path, '/tmp/')
 
-        run("mkdir -p /data/web_static/releases/{}/".format(file_base))
+        run("mkdir -p {}".format(path_static))
 
-        run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(
-            file_name, file_base))
+        run("tar -xzf /tmp/{} -C {}".format(file_name, path_static))
 
         run("rm /tmp/{}".format(file_name))
-        run("rm -f /data/web_static/current")
+        run("mv {}web_static/* {}".format(path_static, path_static))
+        run("rm -rf {}web_static".format(path_static))
+        run("rm -rf /data/web_static/current")
 
-        run("""
-        ln -s /data/web_static/releases/{}/ /data/web_static/current
-        """.format(file_base))
-        print("New version deployed")
+        run("ln -s {} /data/web_static/current".format(path_static))
+        print("New vision deployed")
 
         return True
     except Exception:
