@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Fabric script that distributes an archive to web servers"""
-from fabric.api import *
+from fabric.api import put, env, run
 from datetime import datetime
 from os import path
 
