@@ -78,8 +78,8 @@ def do_clean(number=0):
         local("rm -rf versions/{}".format(archive))
 
     for host in env.hosts:
-        releases = sorted(run("ls -l /data/web_static/realeses").split())
+        releases = sorted(run("ls -l /data/web_static/releases").split())
 
-        realeses_del = realeases[:-num_keep]
-        for release in realese_del:
-            rn("rum -rf /data/web_static/releases/{}".format(realease))
+        releases_del = realeases[:-num_keep]
+        for release in releases_del:
+            run("rm -rf /data/web_static/releases/{}".format(release))
