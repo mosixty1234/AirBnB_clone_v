@@ -18,11 +18,9 @@ def teardown(e):
 @app.route("/hbnb_filters", strict_slashes = False)
 def hbnb_filters():
     states = storage.all(State).values()
-    cities = storage.all(City).values()
     amenities = storage.all(Amenity).values()
 
-    return render_template("10-hbnb_filters.html", states=states,
-            cities=cities, amenities=amenities)
+    return render_template("10-hbnb_filters.html", states=states, amenities=amenities)
 
 
 if __name__ == "__main__":
